@@ -1,0 +1,1 @@
+Salvo is a package that lets you leverage Go concurrency for attack vector orchestration and more efficient scanning.  
