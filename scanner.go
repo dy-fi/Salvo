@@ -6,22 +6,17 @@ import (
 	"errors"
 )
 
-type connection struct {
-	conn *net.Conn
-	err *error 
-}
-
 
 // GetAddrs returns a slice of addresses on the given port
-func GetAddrs(hostname string) []string {
+func GetAddrs(hostname string) ([]string, error) {
 
 	var ports []string
 	ports,err := net.LookupHost(hostname)
 
 	if err != nil {
-		errors.New("Couldn't resolve host")
+		return nil, errors.New("Couldn't resolve host")
 	}
-	return ports 
+	return ports, nil
 }
 
 // connect attempts a connection
@@ -45,13 +40,13 @@ func ConnScan(tgthost string, tgtports []string) ([]string){
 		wg.Add(1)
 		address := net.JoinHostPort(tgthost, v)
 
-		go func(v string) {
+		go func(address string) {
 			defer wg.Done()
 			connection := connect("tcp", address)
 			if connection != nil {
 				results = append(results, address)
 			}
-		}(v);
+		}(address)
 	}
 	wg.Wait()
 
