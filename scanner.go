@@ -7,7 +7,7 @@ import (
 )
 
 
-// GetAddrs returns a slice of addresses on the given port
+// GetAddrs returns a slice of addresses on the given host
 func GetAddrs(hostname string) ([]string, error) {
 
 	var ports []string
@@ -29,7 +29,7 @@ func connect(network string, address string) (*net.Conn) {
 	return &conn 
 }
 
-// ConnScan dials host:port addresses on a host and list of successes
+// ConnScan dials host:port addresses and returns a list of successes
 func ConnScan(tgthost string, tgtports []string) ([]string){
 
 	var results []string 
@@ -48,7 +48,7 @@ func ConnScan(tgthost string, tgtports []string) ([]string){
 			}
 		}(address)
 	}
-	wg.Wait()
 
+	wg.Wait()
 	return results
 }
