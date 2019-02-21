@@ -44,10 +44,10 @@ func TestConnect(t *testing.T) {
 	}
 
 	connection := connect("tcp", TestPorts[0])
-	var conn net.Conn
+	var conn *net.Conn
 	
 	// test return type
 	if reflect.TypeOf(connection) != reflect.TypeOf(conn) {
-		t.Error("expected type: []string \n result: ", reflect.TypeOf(connection))
+		t.Error("expected type: *net.Conn \n result: ", reflect.TypeOf(connection))
 	}
 }
