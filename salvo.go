@@ -11,13 +11,19 @@ func main() {
 		fmt.Printf("Error: %v", err)
 	}
 
-	ports, err := GetAddrs(name)
+	addrs, err := GetAddrs(name)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 	}
 
-	for _,v := range ConnScan(name, ports) {
-		fmt.Println(v) 
+	ports := ConnScan(name, addrs) 
+
+	if len(ports) == 0 {
+		fmt.Println("No ports were detected")
+	} else {
+		for _,v := range ports {
+			fmt.Println(v) 
+		}
 	}
 }
 
