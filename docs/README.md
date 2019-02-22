@@ -57,7 +57,6 @@ ___
 
 ### Documentation
 
-
 #### ConnScan
 
 `func ConnScan(protocol string, tgthost string, tgtports []int, verb ...bool) (map[string]string)`
@@ -71,14 +70,13 @@ ConnScan dials host:port addresses and returns a list of successes
 | `tgtports`        | ports to scan          |
 | `verb ...bool`    | verbose option         |
 
-
 #### GetAddrs
 
 `func GetAddrs(hostname string) ([]string, error)`
 
 GetAddrs returns a slice of addresses on the given host
 
-| param             | description            |
-|-------------------|:----------------------:|
+| param             | description                          |
+|-------------------|:------------------------------------:|
 | `hostname string` | address or resolvable string         |
 
