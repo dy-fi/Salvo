@@ -79,4 +79,3 @@ GetAddrs returns a slice of addresses on the given host
 | param             | description                          |
 |-------------------|:------------------------------------:|
 | `hostname string` | address or resolvable string         |
-

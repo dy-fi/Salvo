@@ -5,7 +5,7 @@ A package leverages Go concurrency for more efficient scanning.
 
 ___ 
 
-## Documentation
+## Doc Site
 Hosted on its own site [here](https://dy-fi.github.io/Salvo/#/)
 
 ### Author
@@ -52,7 +52,6 @@ func main() {
 	}
 }
 ```
-
 ___
 
 ### Documentation
