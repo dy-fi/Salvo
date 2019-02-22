@@ -18,8 +18,6 @@ ___
 
 ### Quick Start Scan Recipe
 
-This is a TCP full scan of the current host
-
 ```go
 import (
     "os"

@@ -1,54 +1,59 @@
 package main
 
 import (
+	"fmt"
 	"net"
 	"sync"
+	"bufio"
 	"errors"
 )
-
 
 // GetAddrs returns a slice of addresses on the given host
 func GetAddrs(hostname string) ([]string, error) {
 
-	var ports []string
-	ports,err := net.LookupHost(hostname)
+	var addresses []string
+	addresses,err := net.LookupHost(hostname)
 
 	if err != nil {
 		return nil, errors.New("Couldn't resolve host")
 	}
-	return ports, nil
-}
-
-// connect attempts a connection
-func connect(network string, address string) (*net.Conn) {
-	conn,err := net.Dial(network, address)
-	
-	if err != nil {
-		return nil
-	}
-	return &conn 
+	return addresses, nil
 }
 
 // ConnScan dials host:port addresses and returns a list of successes
-func ConnScan(tgthost string, tgtports []string) ([]string){
-
-	var results []string 
+func ConnScan(protocol string, tgthost string, tgtports []int, verb ...bool) (result map[string]string){
 	var wg sync.WaitGroup
 	
 	// parallel for loop pattern
 	for _,v := range tgtports {
 		wg.Add(1)
-		address := net.JoinHostPort(tgthost, v)
+		address := net.JoinHostPort(tgthost, string(v))
 
 		go func(address string) {
 			defer wg.Done()
-			connection := connect("tcp", address)
-			if connection != nil {
-				results = append(results, address)
+
+			// attempt to dial
+			connection,err := net.Dial("tcp", address)
+			status,_ := bufio.NewReader(connection).ReadString('\n')
+			defer connection.Close()
+			
+			// success
+			if connection != nil  && err == nil {
+				result[address] = status
+
+				// excluded without flag for optimization
+				if verb[1] {
+					fmt.Println("√ ", status)
+				}
+			// fail 	
+			} else {
+				if verb[1] {
+					fmt.Println("X", status)
+				}
 			}
 		}(address)
 	}
 
 	wg.Wait()
-	return results
+	return
 }

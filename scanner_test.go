@@ -6,7 +6,6 @@ import (
 	"testing"
 	"os"
 	"reflect"
-	"net"
 )
  
 func _gethostname() string {
@@ -36,18 +35,12 @@ func TestGetAddrs(t *testing.T) {
 	}
 }
 
-func TestConnect(t *testing.T) {
-	// test port retrieval
-	TestPorts, err := GetAddrs(_gethostname())
-	if err != nil {
-		t.Error("Error getting ports: ", err)
-	}
-
-	connection := connect("tcp", TestPorts[0])
-	var conn *net.Conn
-	
-	// test return type
-	if reflect.TypeOf(connection) != reflect.TypeOf(conn) {
-		t.Error("expected type: *net.Conn \n result: ", reflect.TypeOf(connection))
+func BenchmarkGetAddrs(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		TestPorts,_ := GetAddrs(_gethostname())
+		if TestPorts == nil {
+			fmt.Println("Couldn't find a host to benchmark on")
+			return
+		}
 	}
 }
