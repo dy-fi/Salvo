@@ -21,7 +21,7 @@ ___
 
 ### Quick Start Scan Recipe
 
-This is a TCP full scan of the current host
+This is a TCP full scan of the current host on port 80 (http) and 443 (https)
 
 ```go
 import (
