@@ -52,7 +52,6 @@ func main() {
 	}
 }
 ```
-___
 
 ### Documentation
 
