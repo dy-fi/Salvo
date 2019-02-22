@@ -1,13 +1,12 @@
 package main
 
-
 import (
 	"fmt"
-	"testing"
 	"os"
 	"reflect"
+	"testing"
 )
- 
+
 func _gethostname() string {
 	name, err := os.Hostname()
 	if err != nil {
@@ -18,15 +17,15 @@ func _gethostname() string {
 
 func TestGetAddrs(t *testing.T) {
 
-	// test port retrieval 
+	// test port retrieval
 	TestPorts, err := GetAddrs(_gethostname())
 	if err != nil {
 		t.Error("Error getting ports: ", err)
 	}
 
 	var s []string
-	// test return type 
-	if reflect.TypeOf(TestPorts) !=  reflect.TypeOf(s) {
+	// test return type
+	if reflect.TypeOf(TestPorts) != reflect.TypeOf(s) {
 		t.Error("expected type: []string \n result: ", reflect.TypeOf(TestPorts))
 	}
 	// test valid output
@@ -37,7 +36,7 @@ func TestGetAddrs(t *testing.T) {
 
 func BenchmarkGetAddrs(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		TestPorts,_ := GetAddrs(_gethostname())
+		TestPorts, _ := GetAddrs(_gethostname())
 		if TestPorts == nil {
 			fmt.Println("Couldn't find a host to benchmark on")
 			return

@@ -1,9 +1,8 @@
 package main
 
 import (
-	"os"
 	"fmt"
-
+	"os"
 )
 
 func main() {
@@ -13,19 +12,18 @@ func main() {
 	}
 
 	conns := make(map[string]string)
-	addrs,_ := GetAddrs(name)
+	addrs, _ := GetAddrs(name)
 	ports := []int{80, 443}
 
-	for _,v := range addrs {
-		conns = ConnScan("tcp", v, ports) 
+	for _, v := range addrs {
+		conns = ConnScan("tcp", v, ports)
 	}
 
 	if len(conns) == 0 {
 		fmt.Println("No ports were detected")
 	} else {
-		for _,v := range conns {
-			fmt.Println(v) 
+		for _, v := range conns {
+			fmt.Println(v)
 		}
 	}
 }
-
