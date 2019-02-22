@@ -5,6 +5,9 @@ A package leverages Go concurrency for more efficient scanning.
 
 ___ 
 
+### Documentation
+Hosted on its own site [here](https://dy-fi.github.io/Salvo/#/)
+
 ### Author
 Dylan Finn - [LinkedIn](https://www.linkedin.com/in/dylan-finn-a36b9614b/) - [GitHub](https://github.com/dy-fi)
 
