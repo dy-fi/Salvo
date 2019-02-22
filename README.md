@@ -61,7 +61,7 @@ ___
 
 #### ConnScan
 
-`func ConnScan(protocol string, tgthost string, tgtports []int, verb ...bool) (result map[string]string)`
+`func ConnScan(protocol string, tgthost string, tgtports []int, verb ...bool) (map[string]string)`
 
 ConnScan dials host:port addresses and returns a list of successes 
 

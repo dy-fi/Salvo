@@ -53,7 +53,7 @@ func ConnScan(protocol string, tgthost string, tgtports []int, verb ...bool) (re
 			}
 		}(address)
 	}
-
+	// wait for goroutines to end and return
 	wg.Wait()
 	return
 }
