@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"reflect"
 	"testing"
 )
 
@@ -24,21 +23,11 @@ func TestPortScan(t *testing.T) {
 		t.Fatal("Could not detect any ports when at least some should be accessible")
 	}
 	// test cases
-	for _, tc := range GetAddrsCases {
-		output := PortScan("tcp", host, []int{80, 443})
-		if tc.error {
-			var _ error = err
+	for _, tc := range PortScanCases {
+		output := PortScan(tc.protocol, host, tc.ports)
 
-			if err == nil {
-				t.Fatalf("GetAddrs(%q)Should have thrown error- \ngot: %d \nwant: %d", tc.input, output, tc.output)
-			}
-		} else {
-			if reflect.TypeOf(output) != reflect.TypeOf(tc.output) {
-				t.Fatalf("GetAddrs(%q) unexpected output- \ngot: %d \nwant: %d", tc.input, output, tc.output)
-			}
-			if err != nil {
-				t.Fatalf("GetAddrs(%q) unexpected error- %d", tc.input, err)
-			}
+		if output == nil {
+			t.Fatal("Expected output but none was given")
 		}
 	}
 }

@@ -9,17 +9,19 @@ var host,_ = os.Hostname()
 var addrs, err = net.LookupHost(host)
 var strlist []string
 
-var ConnScanCases = []struct {
+var PortScanCases = []struct {
 	description string
 	protocol string
 	ports 	 []int
+	verb	bool
 }{
 	{
 		"Basic internet ports",
 		"tcp",
 		[]int{80, 443},
+		true,
 	},
 	{
-		
+
 	},
 }
