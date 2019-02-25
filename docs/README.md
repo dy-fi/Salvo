@@ -27,27 +27,29 @@ This is a TCP full scan of the current host on port 80 (http) and 443 (https)
 import (
     "os"
     "fmt"
+    "net"
 )
 
 func main() {
-	name, err := os.Hostname()
+	// environment data
+	host, err := os.Hostname()
+	addrs,err := net.LookupHost(host)
 	if err != nil {
 		fmt.Printf("Error: can't get host \n%v", err)
 	}
 
 	conns := make(map[string]string)
-	addrs,_ := GetAddrs(name)
 	ports := []int{80, 443}
 
-	for _,v := range addrs {
-		conns = ConnScan("tcp", v, ports) 
+	for _, v := range addrs {
+		conns = PortScan("tcp", v, ports)
 	}
 
 	if len(conns) == 0 {
 		fmt.Println("No ports were detected")
 	} else {
-		for _,v := range conns {
-			fmt.Println(v) 
+		for _, v := range conns {
+			fmt.Println(v + "\n")
 		}
 	}
 }
@@ -55,11 +57,11 @@ func main() {
 
 ### Documentation
 
-#### ConnScan
+#### PortScan
 
-`func ConnScan(protocol string, tgthost string, tgtports []int, verb ...bool) (map[string]string)`
+`func PortScan(protocol string, tgthost string, tgtports []int, verb ...bool) (map[string]string)`
 
-ConnScan dials host:port addresses and returns a list of successes 
+PortScan dials host:port addresses and returns a list of successes 
 
 | param             | description            |
 |-------------------|:----------------------:|
@@ -68,12 +70,3 @@ ConnScan dials host:port addresses and returns a list of successes
 | `tgtports`        | ports to scan          |
 | `verb ...bool`    | verbose option         |
 
-#### GetAddrs
-
-`func GetAddrs(hostname string) ([]string, error)`
-
-GetAddrs returns a slice of addresses on the given host
-
-| param             | description                          |
-|-------------------|:------------------------------------:|
-| `hostname string` | address or resolvable string         |

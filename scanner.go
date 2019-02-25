@@ -2,26 +2,13 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"net"
 	"sync"
 )
 
-// GetAddrs returns a slice of addresses on the given host
-func GetAddrs(hostname string) ([]string, error) {
-
-	var addresses []string
-	addresses, err := net.LookupHost(hostname)
-
-	if err != nil {
-		return nil, errors.New("Couldn't resolve host")
-	}
-	return addresses, nil
-}
-
-// ConnScan dials host:port addresses and returns a list of successes
-func ConnScan(protocol string, tgthost string, tgtports []int, verb ...bool) (result map[string]string) {
+// PortScan dials host:port addresses and returns a list of successes
+func PortScan(protocol string, tgthost string, tgtports []int, verb ...bool) (result map[string]string) {
 	var wg sync.WaitGroup
 
 	// parallel for loop pattern
@@ -57,3 +44,5 @@ func ConnScan(protocol string, tgthost string, tgtports []int, verb ...bool) (re
 	wg.Wait()
 	return
 }
+
+// FullScan is simply 

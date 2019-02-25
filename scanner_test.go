@@ -15,26 +15,17 @@ func _gethostname() string {
 	return name
 }
 
-func TestGetAddrs(t *testing.T) {
+func TestPortScan(t *testing.T) {
 
-	// test port retrieval
-	TestPorts, err := GetAddrs(_gethostname())
-	if err != nil {
-		t.Error("Error getting ports: ", err)
-	}
+	conn := PortScan("tcp", _gethostname(), []int{80, 443})
 
-	var s []string
-	// test return type
-	if reflect.TypeOf(TestPorts) != reflect.TypeOf(s) {
-		t.Fatal("expected type: []string \n result: ", reflect.TypeOf(TestPorts))
-	}
 	// test valid output
-	if len(TestPorts) < 1 {
+	if len(conn) < 1 {
 		t.Fatal("Could not detect any ports when at least some should be accessible")
 	}
-
+	// test cases
 	for _, tc := range GetAddrsCases {
-		output, err := GetAddrs(tc.input)
+		output := PortScan("tcp", host, []int{80, 443})
 		if tc.error {
 			var _ error = err
 
@@ -52,13 +43,9 @@ func TestGetAddrs(t *testing.T) {
 	}
 }
 
-func TestConnScan(t *testing.T) {
-
-}
-
-func BenchmarkGetAddrs(b *testing.B) {
+func BenchmarkPortScan(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		TestPorts, _ := GetAddrs(_gethostname())
+		TestPorts := PortScan("tcp", _gethostname(), []int{80, 443})
 		if TestPorts == nil {
 			fmt.Println("Couldn't find a host to benchmark on")
 			return

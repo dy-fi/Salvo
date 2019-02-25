@@ -6,22 +6,20 @@ import (
 )
 
 var host,_ = os.Hostname()
-var currHost, err = net.LookupHost(host)
+var addrs, err = net.LookupHost(host)
 var strlist []string
 
-var GetAddrsCases = []struct {
-	input string
-	output interface{}
-	error bool 
+var ConnScanCases = []struct {
+	description string
+	protocol string
+	ports 	 []int
 }{
 	{
-		host,
-		currHost,
-		false,
+		"Basic internet ports",
+		"tcp",
+		[]int{80, 443},
 	},
 	{
-		"asdf",
-		nil, 
-		true,
+		
 	},
 }
