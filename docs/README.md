@@ -8,7 +8,6 @@ A package leverages Go concurrency for more efficient scanning.
 
 Coming Soon:
 * Source IP spoofing by manual packet construction
-
 ___ 
 
 ## Doc Site
@@ -63,20 +62,20 @@ func main() {
 		}
 	}
 }
+
 ```
 
 ### Documentation
 
 #### PortScan
 
-`func PortScan(protocol string, tgthost string, tgtports []int, verb ...bool) (map[string]string)`
+`func PortScan(protocol string, tgthost string, tgtports []int) ([]string)`
 
-PortScan dials host:port addresses and returns a list of successes 
+PortScan dials host:port addresses concurrently and returns a list of successes 
 
 | param             | description            |
 |-------------------|:----------------------:|
 | `protocol string` |     i.e. "tcp"         |
 | `tgthost string`  | target host hostname   |
 | `tgtports`        | ports to scan          |
-| `verb ...bool`    | verbose option         |
 
