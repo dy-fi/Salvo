@@ -8,6 +8,7 @@ A package leverages Go concurrency for more efficient scanning.
 
 Coming Soon:
 * Source IP spoofing by manual packet construction
+* file dumping
 ___ 
 
 ## Doc Site

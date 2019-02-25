@@ -1,9 +1,9 @@
-package main
+package salvo
 
 import (
+	"math/rand"
 	"net"
 	"sync"
-	"math/rand"
 	"time"
 )
 
@@ -13,7 +13,7 @@ func _shuffleOrder(src []int) []int {
 	perm := rand.Perm(len(src))
 
 	for i, v := range perm {
-    	dest[v] = src[i]
+		dest[v] = src[i]
 	}
 	return dest
 }
@@ -25,24 +25,23 @@ func PortWorker(protocol string, tgt string) (bool, string) {
 	time.Sleep(time.Duration(r) * time.Microsecond)
 
 	// attempt to dial
-	connection, err := net.Dial("tcp", tgt)
+	connection, err := net.Dial(protocol, tgt)
 	if err != nil {
 		return false, ""
 	}
-	
+
 	if connection != nil {
 		// connection succeeded
 		return true, tgt
 	}
 	defer connection.Close()
 	return false, ""
-	
+
 }
 
 // PortScan dials host:port addresses and returns a list of successes
 func PortScan(protocol string, tgthost string, tgtports []int) (result []string) {
 	var wg sync.WaitGroup
-	
 
 	// randomize port access
 	ports := _shuffleOrder(tgtports)
@@ -62,6 +61,5 @@ func PortScan(protocol string, tgthost string, tgtports []int) (result []string)
 	}
 	// wait for goroutines to end and return
 	wg.Wait()
-	return 
+	return result
 }
-
