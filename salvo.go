@@ -9,9 +9,13 @@ import (
 func main() {
 	// environment data
 	host, err := os.Hostname()
+	if err != nil {
+		return
+	}
 	addrs,err := net.LookupHost(host)
 	if err != nil {
 		fmt.Printf("Error: can't get host \n%v", err)
+		return
 	}
 
 	conns := []string{}
