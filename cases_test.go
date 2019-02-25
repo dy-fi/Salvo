@@ -13,13 +13,11 @@ var PortScanCases = []struct {
 	description string
 	protocol string
 	ports 	 []int
-	verb	bool
 }{
 	{
 		"Basic internet ports",
 		"tcp",
 		[]int{80, 443},
-		true,
 	},
 	{
 

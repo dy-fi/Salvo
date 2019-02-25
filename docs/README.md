@@ -3,6 +3,12 @@
 
 A package leverages Go concurrency for more efficient scanning.  
 
+* randomized request times
+* randomized port order
+
+Coming Soon:
+* Source IP spoofing by manual packet construction
+
 ___ 
 
 ## Doc Site
@@ -25,9 +31,9 @@ This is a TCP full scan of the current host on port 80 (http) and 443 (https)
 
 ```go
 import (
-    "os"
-    "fmt"
-    "net"
+	"fmt"
+	"os"
+	"net"
 )
 
 func main() {
@@ -38,8 +44,12 @@ func main() {
 		fmt.Printf("Error: can't get host \n%v", err)
 	}
 
-	conns := make(map[string]string)
-	ports := []int{80, 443}
+	conns := []string{}
+	ports := []int{}
+
+	for i := 8000; i > 0; i-- {
+		ports = append(ports, i)
+	}
 
 	for _, v := range addrs {
 		conns = PortScan("tcp", v, ports)

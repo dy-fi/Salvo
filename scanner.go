@@ -1,17 +1,15 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
 	"net"
 	"sync"
 	"math/rand"
 	"time"
 )
 
-// shuffles port access order to obfuscate 
-func _shuffleOrder(src []string) []string {
-	dest := make([]string, len(src))
+// shuffles a list of integers
+func _shuffleOrder(src []int) []int {
+	dest := make([]int, len(src))
 	perm := rand.Perm(len(src))
 
 	for i, v := range perm {
@@ -21,50 +19,49 @@ func _shuffleOrder(src []string) []string {
 }
 
 // PortWorker is one scan process
-func PortWorker(protocol string, tgt string, verb ...bool) {
+func PortWorker(protocol string, tgt string) (bool, string) {
 	// randomized timeout
 	r := rand.Intn(10)
 	time.Sleep(time.Duration(r) * time.Microsecond)
 
 	// attempt to dial
 	connection, err := net.Dial("tcp", tgt)
-	status, _ := bufio.NewReader(connection).ReadString('\n')
-	defer connection.Close()
-
-	if verb[1] {
-		if connection != nil && err == nil {
-			// connection succeeded
-			fmt.Println("√ ", status)
-		} else {
-			// connection failed
-			fmt.Println("X", status)
-		}
+	if err != nil {
+		return false, ""
 	}
+	
+	if connection != nil {
+		// connection succeeded
+		return true, tgt
+	}
+	defer connection.Close()
+	return false, ""
+	
 }
 
 // PortScan dials host:port addresses and returns a list of successes
-func PortScan(protocol string, tgthost string, tgtports []int, verb ...bool) (result map[string]string) {
+func PortScan(protocol string, tgthost string, tgtports []int) (result []string) {
 	var wg sync.WaitGroup
-	verbose := false
+	
 
-	if verb != nil {
-		if verb[0] {
-			verbose = true
-		}
-	}
+	// randomize port access
+	ports := _shuffleOrder(tgtports)
 
 	// parallel for loop pattern
-	for _, v := range tgtports {
+	for _, v := range ports {
 		wg.Add(1)
 		address := net.JoinHostPort(tgthost, string(v))
 
 		go func(address string) {
 			defer wg.Done()
-			PortWorker(protocol, address, verbose)
+			status, address := PortWorker(protocol, address)
+			if status {
+				result = append(result, address)
+			}
 		}(address)
 	}
 	// wait for goroutines to end and return
 	wg.Wait()
-	return
+	return 
 }
 

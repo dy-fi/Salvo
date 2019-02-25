@@ -14,8 +14,12 @@ func main() {
 		fmt.Printf("Error: can't get host \n%v", err)
 	}
 
-	conns := make(map[string]string)
-	ports := []int{80, 443}
+	conns := []string{}
+	ports := []int{}
+
+	for i := 8000; i > 0; i-- {
+		ports = append(ports, i)
+	}
 
 	for _, v := range addrs {
 		conns = PortScan("tcp", v, ports)
