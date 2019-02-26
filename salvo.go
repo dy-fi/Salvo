@@ -19,11 +19,7 @@ func main() {
 	}
 
 	conns := []string{}
-	ports := []int{}
-
-	for i := 8000; i > 0; i-- {
-		ports = append(ports, i)
-	}
+	ports := _getlist(8000)
 
 	for _, v := range addrs {
 		conns = PortScan("tcp", v, ports)

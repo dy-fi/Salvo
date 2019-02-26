@@ -16,7 +16,7 @@ func _gethostname() string {
 
 func TestPortScan(t *testing.T) {
 
-	conn := PortScan("tcp", _gethostname(), []int{80, 443})
+	conn := PortScan("tcp", _gethostname(), _getlist(4000))
 
 	// test valid output
 	if len(conn) < 1 {
@@ -34,7 +34,7 @@ func TestPortScan(t *testing.T) {
 
 func BenchmarkPortScan(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		TestPorts := PortScan("tcp", _gethostname(), []int{80, 443})
+		TestPorts := PortScan("tcp", _gethostname(), _getlist(4000))
 		if TestPorts == nil {
 			fmt.Println("Couldn't find a host to benchmark on")
 			return

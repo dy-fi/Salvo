@@ -7,6 +7,13 @@ import (
 	"time"
 )
 
+func _getlist(j int) (result []int) {
+	for i := 1; i < j; i++ {
+		result[i] = i
+	}
+	return 
+}
+
 // shuffles a list of integers
 func _shuffleOrder(src []int) []int {
 	dest := make([]int, len(src))
@@ -16,6 +23,10 @@ func _shuffleOrder(src []int) []int {
 		dest[v] = src[i]
 	}
 	return dest
+}
+
+type capture struct {
+	
 }
 
 // PortWorker is one scan process

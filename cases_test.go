@@ -17,7 +17,7 @@ var PortScanCases = []struct {
 	{
 		"Basic internet ports",
 		"tcp",
-		[]int{80, 443},
+		_getlist(2000),
 	},
 	{
 
