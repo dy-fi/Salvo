@@ -25,12 +25,9 @@ func _shuffleOrder(src []int) []int {
 	return dest
 }
 
-type capture struct {
-	
-}
 
 // PortWorker is one scan process
-func PortWorker(protocol string, tgt string) (bool, string) {
+func PortWorker(protocol string, tgt string) (string, *net.Conn) {
 	// randomized timeout
 	r := rand.Intn(10)
 	time.Sleep(time.Duration(r) * time.Microsecond)
@@ -38,20 +35,19 @@ func PortWorker(protocol string, tgt string) (bool, string) {
 	// attempt to dial
 	connection, err := net.Dial(protocol, tgt)
 	if err != nil {
-		return false, ""
+		return tgt, nil
 	}
 
 	if connection != nil {
 		// connection succeeded
-		return true, tgt
+		return tgt, &connection
 	}
 	defer connection.Close()
-	return false, ""
-
+	return tgt, nil
 }
 
 // PortScan dials host:port addresses and returns a list of successes
-func PortScan(protocol string, tgthost string, tgtports []int) (result []string) {
+func PortScan(protocol string, tgthost string, tgtports []int) (result map[string]*net.Conn) {
 	var wg sync.WaitGroup
 
 	// randomize port access
@@ -62,11 +58,12 @@ func PortScan(protocol string, tgthost string, tgtports []int) (result []string)
 		wg.Add(1)
 		address := net.JoinHostPort(tgthost, string(v))
 
+		// assign port worker 
 		go func(address string) {
 			defer wg.Done()
-			status, address := PortWorker(protocol, address)
-			if status {
-				result = append(result, address)
+			address, conn := PortWorker(protocol, address)
+			if conn != nil {
+				result[address] = conn
 			}
 		}(address)
 	}

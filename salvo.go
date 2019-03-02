@@ -18,7 +18,7 @@ func main() {
 		return
 	}
 
-	conns := []string{}
+	conns := make(map[string]*net.Conn)
 	ports := _getlist(8000)
 
 	for _, v := range addrs {
@@ -28,8 +28,8 @@ func main() {
 	if len(conns) == 0 {
 		fmt.Println("No ports were detected")
 	} else {
-		for _, v := range conns {
-			fmt.Println(v + "\n")
+		for k := range conns {
+			fmt.Println(k + "\n")
 		}
 	}
 }
