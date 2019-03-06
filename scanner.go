@@ -19,7 +19,7 @@ func _shuffleOrder(src []int) []int {
 }
 
 // PortWorker is one scan process
-func PortWorker(protocol string, tgt string) (bool, string) {
+func PortWorker(protocol string, tgt string) (string, bool) {
 	// randomized timeout
 	r := rand.Intn(10)
 	time.Sleep(time.Duration(r) * time.Microsecond)
@@ -27,15 +27,15 @@ func PortWorker(protocol string, tgt string) (bool, string) {
 	// attempt to dial
 	connection, err := net.Dial(protocol, tgt)
 	if err != nil {
-		return false, address
+		return tgt, false
 	}
 
 	if connection != nil {
 		// connection succeeded
-		return true, tgt
+		return tgt, true
 	}
 	defer connection.Close()
-	return false, ""
+	return tgt, false
 
 }
 
@@ -53,7 +53,7 @@ func PortScan(protocol string, tgthost string, tgtports []int) (result map[strin
 
 		go func(address string) {
 			defer wg.Done()
-			status, address := PortWorker(protocol, address)
+			address, status := PortWorker(protocol, address)
 			result[address] = status
 		}(address)
 	}

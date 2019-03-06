@@ -39,8 +39,13 @@ func main() {
 	if len(conns) == 0 {
 		fmt.Println("No ports were detected")
 	} else {
-		for _, v := range conns {
-			fmt.Println(v + "\n")
+		for i, v := range conns {
+			if v {
+				fmt.Println(i + ": success \n")
+			} else {
+				fmt.Println(i + ": failure \n")
+			}
+			
 		}
 	}
 }
