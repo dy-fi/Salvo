@@ -1,10 +1,19 @@
-package salvo
+package main
 
 import (
 	"fmt"
-	"os"
+	"github.com/dy-fi/salvo"
 	"net"
+	"os"
 )
+
+func _getlist(n int) []int {
+	var result []int
+	for i := 1; i <= n; i++ {
+		result = append(result, i)
+	}
+	return result
+}
 
 func main() {
 	// environment data
@@ -12,17 +21,19 @@ func main() {
 	if err != nil {
 		return
 	}
-	addrs,err := net.LookupHost(host)
+	fmt.Println(host)
+	addrs, err := net.LookupHost(host)
 	if err != nil {
 		fmt.Printf("Error: can't get host \n%v", err)
 		return
 	}
+	fmt.Print(string(len(addrs)))
 
-	conns := []string{}
+	var conns map[string]bool
 	ports := _getlist(8000)
 
 	for _, v := range addrs {
-		conns = PortScan("tcp", v, ports)
+		conns = salvo.PortScan("tcp", v, ports)
 	}
 
 	if len(conns) == 0 {

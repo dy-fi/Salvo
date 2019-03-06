@@ -7,13 +7,6 @@ import (
 	"time"
 )
 
-func _getlist(j int) (result []int) {
-	for i := 1; i < j; i++ {
-		result[i] = i
-	}
-	return 
-}
-
 // shuffles a list of integers
 func _shuffleOrder(src []int) []int {
 	dest := make([]int, len(src))
@@ -25,10 +18,6 @@ func _shuffleOrder(src []int) []int {
 	return dest
 }
 
-type capture struct {
-	
-}
-
 // PortWorker is one scan process
 func PortWorker(protocol string, tgt string) (bool, string) {
 	// randomized timeout
@@ -38,7 +27,7 @@ func PortWorker(protocol string, tgt string) (bool, string) {
 	// attempt to dial
 	connection, err := net.Dial(protocol, tgt)
 	if err != nil {
-		return false, ""
+		return false, address
 	}
 
 	if connection != nil {
@@ -51,7 +40,7 @@ func PortWorker(protocol string, tgt string) (bool, string) {
 }
 
 // PortScan dials host:port addresses and returns a list of successes
-func PortScan(protocol string, tgthost string, tgtports []int) (result []string) {
+func PortScan(protocol string, tgthost string, tgtports []int) (result map[string]bool) {
 	var wg sync.WaitGroup
 
 	// randomize port access
@@ -65,9 +54,7 @@ func PortScan(protocol string, tgthost string, tgtports []int) (result []string)
 		go func(address string) {
 			defer wg.Done()
 			status, address := PortWorker(protocol, address)
-			if status {
-				result = append(result, address)
-			}
+			result[address] = status
 		}(address)
 	}
 	// wait for goroutines to end and return
