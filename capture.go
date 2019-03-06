@@ -28,13 +28,14 @@ func NewCapture(conn net.Conn, timeOption ...time.Time) Capture {
 	return tgt
 }
 
-// Read the capture stream
-func (c *Capture) Read (bytes ...int) {
+// Read reads the connection and passes it to the Receiver channel
+func (c *Capture) Read () {
 	b,_ := ioutil.ReadAll(c.Stream)
 	c.Receiver <- string(b) 
 }
 
+// IPListen checks to see if a connection is IP type and then 
+func (c *Capture) IPListen (network string, ) {
 
-
-
+}
 

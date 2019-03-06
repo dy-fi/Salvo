@@ -2,34 +2,30 @@ package salvo
 
 import (
 	"fmt"
-	"os"
 	"net"
+	"os"
 )
 
 func main() {
 	// environment data
 	host, err := os.Hostname()
 	if err != nil {
-		return
+		fmt.Printf("Error getting host: %v", err)
 	}
-	addrs,err := net.LookupHost(host)
+	addrs, err  := net.LookupHost(host)
 	if err != nil {
-		fmt.Printf("Error: can't get host \n%v", err)
-		return
+		fmt.Printf("Error looking up host: %v", err)
 	}
-
-	conns := make(map[string]*net.Conn)
+	fmt.Println(string(len(addrs)))
+	var conns []string
 	ports := _getlist(8000)
 
 	for _, v := range addrs {
 		conns = PortScan("tcp", v, ports)
 	}
-
-	if len(conns) == 0 {
-		fmt.Println("No ports were detected")
-	} else {
-		for k := range conns {
-			fmt.Println(k + "\n")
-		}
+	
+	for k := range conns {
+		fmt.Printf("%v\n", k)
 	}
+	
 }
