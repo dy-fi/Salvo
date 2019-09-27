@@ -3,6 +3,8 @@
 
 A package leverages Go concurrency for more efficient scanning.  
 
+It is illegal to scan networks if you don't have explicit consent from the network owner.  
+
 * randomized request times
 * randomized port order
 
