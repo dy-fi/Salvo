@@ -1,4 +1,4 @@
-package salvo
+package test
 
 import (
 	"os"

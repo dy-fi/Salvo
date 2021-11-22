@@ -2,3 +2,5 @@ github.com/bradfitz/iter v0.0.0-20190303215204-33e6a9893b0c h1:FUUopH4brHNO2kJoN
 github.com/bradfitz/iter v0.0.0-20190303215204-33e6a9893b0c/go.mod h1:PyRFw1Lt2wKX4ZVSQ2mk+PeDa1rxyObEDlApuIsUKuo=
 github.com/dy-fi/salvo v0.0.0-20190226234805-1975c5feae3f h1:phNHqfdgttGRF1WbL/oOslh3G9w1mQTZtkvY8CS87as=
 github.com/dy-fi/salvo v0.0.0-20190226234805-1975c5feae3f/go.mod h1:Jt6pkyng2jGt103V6X0TB9ODABSn0Gs2Xd3VEZRq5Ro=
+golang.org/x/sync v0.0.0-20210220032951-036812b2e83c h1:5KslGYwFpkhGh+Q16bwMP3cOontH8FOep7tGV86Y7SQ=
+golang.org/x/sync v0.0.0-20210220032951-036812b2e83c/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=

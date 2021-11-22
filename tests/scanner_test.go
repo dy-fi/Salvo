@@ -1,4 +1,4 @@
-package salvo
+package test
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ func _gethostname() string {
 
 func TestPortScan(t *testing.T) {
 
-	conn := PortScan("tcp", _gethostname(), _getlist(4000))
+	conn := PortScan("tcp", _gethostname(), 1000, 3000)
 
 	// test valid output
 	if len(conn) < 1 {
